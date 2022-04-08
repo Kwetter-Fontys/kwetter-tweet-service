@@ -19,9 +19,11 @@ namespace TweetService.DAL
 
             List<Tweet> tweets = new List<Tweet>
             {
-                   new Tweet("Tweet1", 1),
-                   new Tweet("Tweet2", 1),
-                   new Tweet("Tweet3", 1),
+                //140 characters exactly for testing
+                //If put in more you get an error
+                   new Tweet("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat.", 1),
+                   new Tweet("Lorem", 1),
+                   new Tweet("a", 1),
                    new Tweet("Tweet4", 1),
                    new Tweet("Tweet", 2),
                    new Tweet("Tweet", 3),

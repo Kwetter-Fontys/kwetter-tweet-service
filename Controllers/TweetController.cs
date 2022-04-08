@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TweetService.DAL.Repositories;
 using TweetService.Models;
-
+using TweetService.Services;
 
 namespace TweetService.Controllers
 {
@@ -10,29 +10,28 @@ namespace TweetService.Controllers
     public class TweetController
     {
 
-        ITweetRepository TweetRepository = null;
+        TweetServiceClass tweetService;
         public TweetController(ITweetRepository tweetRepo)
         {
-            TweetRepository = tweetRepo;
+            tweetService = new TweetServiceClass(tweetRepo);
         }
 
-        [HttpGet] // GET /api/tweetcontroller
-        public List<Tweet> GetAllTweets()
+        [HttpGet("{id}")]// GET /api/tweetcontroller/xyz
+        public List<Tweet> GetAllTweets(int id)
         {
-            return TweetRepository.GetTweets();
+            return tweetService.GetTweetsFromUser(id);
         }
 
-
-        [HttpGet("{id}")]   // GET /api/tweetcontroller/xyz
-        public Tweet GetSingleTweet(int id)
+        [HttpPut]   // PUT /api/tweetcontroller
+        public Tweet LikeTweet(Tweet tweet)
         {
-            return TweetRepository.GetTweet(id);
+            return tweetService.LikeTweet(tweet);
         }
 
-        [HttpPut("{id}")]   // PUT /api/tweetcontroller/xyz
-        public Tweet LikeTweet(int id, Tweet tweet)
+        [HttpPost]// post /api/tweetcontroller
+        public Tweet PostTweet(string content, int uId)
         {
-            return TweetRepository.LikeTweet(id, tweet);
+            return tweetService.PostTweet(content, uId);
         }
     }
 }

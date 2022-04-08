@@ -15,34 +15,31 @@ namespace TweetService.DAL.Repositories
         {
             this.tweetContext = context;
         }
-        public List<Tweet> GetTweets()
+        public List<Tweet> GetTweets(int userId)
         {
-            return tweetContext.Tweets.ToList();
+            List<Tweet> tweets = tweetContext.Tweets.Where(t => t.User == userId).ToList();
+            return tweets;
         }
 
-        //Should catch null error
-        public Tweet GetTweet(int id)
+        //Should catch null error, and not sure if this is usefull at all
+        public Tweet FindTweet(int id)
         {
             return tweetContext.Tweets.Find(id);
         }
 
-        //Should just give like + 1 
-        public Tweet LikeTweet(int id, Tweet tweet)
+        public Tweet CreateTweet(Tweet tweet)
         {
-            //Should add catches
-            tweetContext.Tweets.Update(tweet);
+            tweetContext.Tweets.Add(tweet);
             tweetContext.SaveChanges();
             return tweet;
         }
 
-        public void AddTweet(Tweet tweet)
+        public Tweet UpdateTweet(Tweet tweet)
         {
+            tweetContext.Tweets.Update(tweet);
+            tweetContext.SaveChanges();
+            return tweet;
         }
-
-        public void DeleteTweet(Tweet tweet)
-        {
-        }
-
 
     }
 }
