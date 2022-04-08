@@ -19,6 +19,8 @@ namespace TweetService.Services
             List<TweetViewModel> allTweets = new List<TweetViewModel>();
             foreach (Tweet tweet in tweets)
             {
+                //Propally should load it imediatly instead of looping through like here
+                TweetRepository.LoadLikes(tweet);
                 allTweets.Add(TransformToViewModel(tweet));
             }
             return allTweets;
@@ -56,9 +58,9 @@ namespace TweetService.Services
             return TransformToViewModel(foundTweet);
         }
 
-        public TweetViewModel PostTweet(string content, int uId)
+        public TweetViewModel PostTweet(Tweet tweet)
         {
-            Tweet tweet = new Tweet(content, uId);
+            //Should probally strip id,dates and likes from this
             return TransformToViewModel(TweetRepository.CreateTweet(tweet));
         }
 

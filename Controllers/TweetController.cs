@@ -30,9 +30,9 @@ namespace TweetService.Controllers
         }
 
         [HttpPost]// post /api/tweetcontroller
-        public TweetViewModel PostTweet(string content, int uId)
+        public TweetViewModel PostTweet(Tweet tweet)
         {
-           return tweetService.PostTweet(content, uId);
+           return tweetService.PostTweet(tweet);
         }
     }
 }
