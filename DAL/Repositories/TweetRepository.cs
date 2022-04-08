@@ -21,11 +21,17 @@ namespace TweetService.DAL.Repositories
             return tweets;
         }
 
-        //Should catch null error, and not sure if this is usefull at all
         public Tweet FindTweet(int id)
         {
             return tweetContext.Tweets.Find(id);
         }
+
+        public Tweet LoadLikes(Tweet tweet)
+        {
+            tweetContext.Entry(tweet).Collection(t => t.Likes).Load();
+            return tweet;
+        }
+
 
         public Tweet CreateTweet(Tweet tweet)
         {

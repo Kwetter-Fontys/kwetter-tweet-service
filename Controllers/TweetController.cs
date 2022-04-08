@@ -2,6 +2,7 @@
 using TweetService.DAL.Repositories;
 using TweetService.Models;
 using TweetService.Services;
+using TweetService.ViewModels;
 
 namespace TweetService.Controllers
 {
@@ -17,21 +18,21 @@ namespace TweetService.Controllers
         }
 
         [HttpGet("{id}")]// GET /api/tweetcontroller/xyz
-        public List<Tweet> GetAllTweets(int id)
+        public List<TweetViewModel> GetAllTweets(int id)
         {
             return tweetService.GetTweetsFromUser(id);
         }
 
-        [HttpPut]   // PUT /api/tweetcontroller
-        public Tweet LikeTweet(Tweet tweet)
+        [HttpPut("{id}")]   // PUT /api/tweetcontroller/xyz
+        public TweetViewModel LikeTweet(int id, int userId)
         {
-            return tweetService.LikeTweet(tweet);
+            return tweetService.LikeTweet(id,userId);
         }
 
         [HttpPost]// post /api/tweetcontroller
-        public Tweet PostTweet(string content, int uId)
+        public TweetViewModel PostTweet(string content, int uId)
         {
-            return tweetService.PostTweet(content, uId);
+           return tweetService.PostTweet(content, uId);
         }
     }
 }

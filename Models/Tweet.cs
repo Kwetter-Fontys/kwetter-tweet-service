@@ -12,15 +12,15 @@ namespace TweetService.Models
         [MaxLength]
         public string Content { get; set; }
         public int User { get; set; }
-        public int Likes { get; set; }
+        public virtual List<Likes> Likes { get; set; }
 
         public DateTime Date { get; set; }
         public Tweet(string content, int user)
         {
             Content = content;
             User = user;
-            Likes = 0;
             Date = DateTime.Now;
+            Likes = new List<Likes>();
         }
     }
 }

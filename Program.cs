@@ -21,7 +21,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //Inject repo
 builder.Services.AddScoped<ITweetRepository, TweetRepository>();
-Console.WriteLine(builder.Environment.EnvironmentName);
 
 if (builder.Environment.IsDevelopment())
 {
@@ -35,8 +34,8 @@ else
 }
 
 builder.Services.AddControllers();
-var app = builder.Build();
 
+var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseSwagger();
