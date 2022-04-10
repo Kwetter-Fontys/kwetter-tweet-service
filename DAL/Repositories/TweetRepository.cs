@@ -17,7 +17,7 @@ namespace TweetService.DAL.Repositories
         }
         public List<Tweet> GetTweets(int userId)
         {
-            List<Tweet> tweets = tweetContext.Tweets.Where(t => t.User == userId).ToList();
+            List<Tweet> tweets = tweetContext.Tweets.Where(t => t.User == userId).OrderByDescending(t => t.Date).ToList();
             return tweets;
         }
 
