@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -16,6 +17,34 @@ builder.Services.AddCors(options =>
                           builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                       });
 });
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    //o.Authority = Configuration["Jwt:Authority"];
+    //o.Audience = Configuration["Jwt:Audience"];
+    o.Authority = "https://keycloak.sebananasprod.nl/auth/realms/Kwetter";
+    o.Audience = "account";
+    o.Events = new JwtBearerEvents()
+    {
+        OnAuthenticationFailed = c =>
+        {
+            c.NoResult();
+
+            c.Response.StatusCode = 500;
+            c.Response.ContentType = "text/plain";
+            if (builder.Environment.IsDevelopment())
+            {
+                return c.Response.WriteAsync(c.Exception.ToString());
+            }
+            return c.Response.WriteAsync("An error occured processing your authentication.");
+        }
+    };
+});
+
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -50,6 +79,8 @@ else
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseCors(MyAllowSpecificOrigins);
 app.MapControllers().RequireCors(MyAllowSpecificOrigins);
 

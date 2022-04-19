@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TweetService.DAL.Repositories;
 using TweetService.Models;
 using TweetService.Services;
@@ -6,6 +7,7 @@ using TweetService.ViewModels;
 
 namespace TweetService.Controllers
 {
+    [Authorize]
     [Route("api/tweetcontroller")]
     [ApiController]
     public class TweetController
