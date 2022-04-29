@@ -21,16 +21,16 @@ namespace TweetService.DAL
             {
                 //140 characters exactly for testing
                 //If put in more you get an error
-                   new Tweet("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat.", 1),
-                   new Tweet("Lorem", 1),
-                   new Tweet("a", 1),
-                   new Tweet("Tweet4", 1),
-                   new Tweet("Tweet", 2),
-                   new Tweet("Tweet", 3),
-                   new Tweet("Tweet", 4),
-                   new Tweet("Tweet", 5),
-                   new Tweet("Tweet", 6),
-                   new Tweet("Tweet", 7)
+                   new Tweet("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat.", "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9"),
+                   new Tweet("Lorem", "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9"),
+                   new Tweet("a", "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9"),
+                   new Tweet("Tweet4", "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9"),
+                   new Tweet("Tweet", "c888f6c2-d4ce-442f-b630-52a91150f22a"),
+                   new Tweet("Tweet", "1"),
+                   new Tweet("Tweet", "2"),
+                   new Tweet("Tweet", "3"),
+                   new Tweet("Tweet", "4"),
+                   new Tweet("Tweet", "5")
             };
 
             context.Tweets.AddRange(tweets);

@@ -20,13 +20,13 @@ namespace TweetService.Controllers
         }
 
         [HttpGet("{id}")]// GET /api/tweetcontroller/xyz
-        public List<TweetViewModel> GetAllTweets(int id)
+        public List<TweetViewModel> GetAllTweets(string id)
         {
             return tweetService.GetTweetsFromUser(id);
         }
 
         [HttpPut("{id}")]   // PUT /api/tweetcontroller/xyz
-        public TweetViewModel LikeTweet(int id, int userId)
+        public TweetViewModel LikeTweet(int id, string userId)
         {
             return tweetService.LikeTweet(id,userId);
         }

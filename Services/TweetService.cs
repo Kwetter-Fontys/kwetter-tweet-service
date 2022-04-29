@@ -13,7 +13,7 @@ namespace TweetService.Services
             TweetRepository = tweetRepo;
         }
 
-        public List<TweetViewModel> GetTweetsFromUser(int id)
+        public List<TweetViewModel> GetTweetsFromUser(string id)
         {
             List<Tweet> tweets = TweetRepository.GetTweets(id);
             List<TweetViewModel> allTweets = new List<TweetViewModel>();
@@ -26,7 +26,7 @@ namespace TweetService.Services
             return allTweets;
         }
 
-        public TweetViewModel LikeTweet(int tweetId, int userId)
+        public TweetViewModel LikeTweet(int tweetId, string userId)
         {
             Tweet foundTweet = TweetRepository.FindTweet(tweetId);
             foundTweet = TweetRepository.LoadLikes(foundTweet);

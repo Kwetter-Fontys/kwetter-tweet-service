@@ -4,13 +4,13 @@
     {
         public int LikesId { get; set; }
 
-        public int User { get; set; }
+        public string User { get; set; }
 
         public int TweetId { get; set; }
 
         public Tweet Tweet { get; set; }
 
-        public Likes(int user)
+        public Likes(string user)
         {
             User = user;
         }
