@@ -32,8 +32,9 @@ stages:
       inputs:
         SonarCloud: 'SonarcloudTweets'
         organization: 'kwetter-fontys'
-        scannerMode: 'CLI'
-        configMode: 'file'
+        scannerMode: 'MSBuild'
+        projectKey: 'Kwetter-Fontys_kwetter-tweet-service'
+        projectName: 'Kwetter tweet service'
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
