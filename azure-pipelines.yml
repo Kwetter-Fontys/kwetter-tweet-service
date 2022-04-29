@@ -34,6 +34,9 @@ stages:
         organization: 'kwetter-fontys'
         scannerMode: 'CLI'
         configMode: 'file'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
     - task: SonarCloudAnalyze@1
     - task: SonarCloudPublish@1
       inputs:
