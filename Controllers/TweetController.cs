@@ -1,21 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using TweetService.DAL.Repositories;
 using TweetService.Models;
 using TweetService.Services;
 using TweetService.ViewModels;
+using UserService.Controllers;
 
 namespace TweetService.Controllers
 {
     [Authorize]
     [Route("api/tweetcontroller")]
     [ApiController]
-    public class TweetController
+    public class TweetController : ControllerBase
     {
-
+        JwtTokenHelper jwtTokenHelper;
         TweetServiceClass tweetService;
         public TweetController(ITweetRepository tweetRepo)
         {
+            jwtTokenHelper = new JwtTokenHelper();
             tweetService = new TweetServiceClass(tweetRepo);
         }
 
@@ -26,15 +29,17 @@ namespace TweetService.Controllers
         }
 
         [HttpPut("{id}")]   // PUT /api/tweetcontroller/xyz
-        public TweetViewModel LikeTweet(int id, string userId)
+        public TweetViewModel LikeTweet(int id)
         {
-            return tweetService.LikeTweet(id,userId);
+            string userTokenId = jwtTokenHelper.GetId(Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", ""));
+            return tweetService.LikeTweet(id, userTokenId);
         }
 
         [HttpPost]// post /api/tweetcontroller
         public TweetViewModel PostTweet(Tweet tweet)
         {
-           return tweetService.PostTweet(tweet);
+            string userTokenId = jwtTokenHelper.GetId(Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", ""));
+            return tweetService.PostTweet(tweet, userTokenId);
         }
     }
 }

@@ -58,10 +58,17 @@ namespace TweetService.Services
             return TransformToViewModel(foundTweet);
         }
 
-        public TweetViewModel PostTweet(Tweet tweet)
+        public TweetViewModel PostTweet(Tweet tweet, string userTokenId)
         {
-            //Should probally strip id,dates and likes from this
-            return TransformToViewModel(TweetRepository.CreateTweet(tweet));
+            if(tweet.User == userTokenId)
+            {
+                //Should probally strip id,dates and likes from this
+                return TransformToViewModel(TweetRepository.CreateTweet(tweet));
+            }
+            else
+            {
+                return null;
+            }
         }
 
 
