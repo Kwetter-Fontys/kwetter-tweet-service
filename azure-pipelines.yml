@@ -50,11 +50,8 @@ stages:
         projects: '**/*.csproj'
         arguments: '--collect "Code Coverage"'
         testRunTitle: 'Alll tests'
-      
+
     - task: SonarCloudAnalyze@1
-    - task: SonarCloudPublish@1
-      inputs:
-        pollingTimeoutSec: '300'
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub'
