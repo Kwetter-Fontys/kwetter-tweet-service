@@ -21,17 +21,19 @@ variables:
 
 stages:
 - stage: Setup
-  displayName: Setup and prepare sonar cloud 
+  displayName: Setup sonarcloud
+  pool:
+    vmImage: $(vmImageName)
   jobs:
   - job: Setup
     displayName: Setup
-    pool:
-      vmImage: $(vmImageName)
     steps:
+
     - task: DotNetCoreCLI@2
       inputs:
         command: 'restore'
         feedsToUse: 'select'
+
     - task: SonarCloudPrepare@1
       inputs:
         SonarCloud: 'SonarcloudTweets'
@@ -41,17 +43,18 @@ stages:
         projectName: 'Kwetter tweet service'
 
 - stage: Build
+  dependsOn: Setup
   displayName: Build and test project
   jobs:
   - job: Build
     displayName: Build and test
-    pool:
-      vmImage: $(vmImageName)
     steps:
+
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
         projects: '**/*.csproj'
+
     - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
@@ -60,26 +63,27 @@ stages:
         testRunTitle: 'Alll tests'
 
 - stage: Analyse
+  dependsOn: Build
   displayName: Analyse and publish to sonarcloud
   jobs:
   - job: Analyse
     displayName: Analyse and publish
-    pool:
-      vmImage: $(vmImageName)
     steps:
+
     - task: SonarCloudAnalyze@1
+
     - task: SonarCloudPublish@1
       inputs:
         pollingTimeoutSec: '300'
 
 - stage: Docker
+  dependsOn: Analyse
   displayName: Push to docker hub
   jobs:
   - job: Docker
     displayName: Push to docker hub
-    pool:
-      vmImage: $(vmImageName)
     steps:
+
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub'
