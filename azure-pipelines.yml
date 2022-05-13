@@ -20,13 +20,13 @@ variables:
   vmImageName: 'ubuntu-latest'
 
 stages:
-- stage: Setup
-  displayName: Setup sonarcloud
+- stage: Main
+  displayName: Setup build analyse and deploy
   pool:
     vmImage: $(vmImageName)
   jobs:
   - job: Setup
-    displayName: Setup
+    displayName: Setup build analyse and deploy
     steps:
 
     - task: DotNetCoreCLI@2
@@ -42,14 +42,6 @@ stages:
         projectKey: 'Kwetter-Fontys_kwetter-tweet-service'
         projectName: 'Kwetter tweet service'
 
-- stage: Build
-  dependsOn: Setup
-  displayName: Build and test project
-  jobs:
-  - job: Build
-    displayName: Build and test
-    steps:
-
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
@@ -62,27 +54,11 @@ stages:
         arguments: '--configuration ($BuildConfiguration) --collect "Code Coverage" --logger trx --results-directory $(System.DefaultWorkingDirectory\TestResults'
         testRunTitle: 'Alll tests'
 
-- stage: Analyse
-  dependsOn: Build
-  displayName: Analyse and publish to sonarcloud
-  jobs:
-  - job: Analyse
-    displayName: Analyse and publish
-    steps:
-
     - task: SonarCloudAnalyze@1
 
     - task: SonarCloudPublish@1
       inputs:
         pollingTimeoutSec: '300'
-
-- stage: Docker
-  dependsOn: Analyse
-  displayName: Push to docker hub
-  jobs:
-  - job: Docker
-    displayName: Push to docker hub
-    steps:
 
     - task: Docker@2
       inputs:
