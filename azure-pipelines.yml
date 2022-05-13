@@ -28,6 +28,10 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        feedsToUse: 'select'
     - task: SonarCloudPrepare@1
       inputs:
         SonarCloud: 'SonarcloudTweets'
@@ -35,10 +39,7 @@ stages:
         scannerMode: 'MSBuild'
         projectKey: 'Kwetter-Fontys_kwetter-tweet-service'
         projectName: 'Kwetter tweet service'
-        extraProperties: |
-          sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)\**\*.trx
-          sonar.cs.vscoveragexml.reportsPaths=$(Agent.TempDirectory)\**\*.coveragexml
-          sonar.verbose=true
+
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
@@ -47,6 +48,7 @@ stages:
       inputs:
         command: 'test'
         projects: '**/*.csproj'
+        arguments: '--collect "Code Coverage"'
         testRunTitle: 'Alll tests'
       
     - task: SonarCloudAnalyze@1
