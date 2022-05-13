@@ -51,7 +51,7 @@ stages:
       inputs:
         command: 'test'
         projects: '**/*.csproj'
-        arguments: '--collect "Code Coverage" --logger trx'
+        arguments: '--collect "Code Coverage" --logger trx --results-directory $(Build.SourcesDirectory)\TestResults'
         testRunTitle: 'Alll tests'
 
     - task: SonarCloudAnalyze@1
