@@ -16,14 +16,7 @@ namespace TweetService.Services
         public List<TweetViewModel> GetTweetsFromUser(string id)
         {
             List<Tweet> tweets = TweetRepository.GetTweets(id);
-            List<TweetViewModel> allTweets = new List<TweetViewModel>();
-            foreach (Tweet tweet in tweets)
-            {
-                //Propally should load it imediatly instead of looping through like here
-                TweetRepository.LoadLikes(tweet);
-                allTweets.Add(TransformToViewModel(tweet));
-            }
-            return allTweets;
+            return TransformToViewModelList(tweets);
         }
 
         public TweetViewModel LikeTweet(int tweetId, string userId)
@@ -82,6 +75,18 @@ namespace TweetService.Services
                 likesVM.Add(new LikesViewModel { LikesId = like.LikesId, TweetId = like.TweetId, User = like.User });
             }
             return new TweetViewModel { Id = tweet.Id, Content = tweet.Content, Date = tweet.Date, User = tweet.User, Likes = likesVM };
+        }
+
+        public List<TweetViewModel> TransformToViewModelList(List<Tweet> tweets)
+        {
+            List<TweetViewModel> allTweets = new List<TweetViewModel>();
+            foreach (Tweet tweet in tweets)
+            {
+                //Propally should load it imediatly instead of looping through like here
+                TweetRepository.LoadLikes(tweet);
+                allTweets.Add(TransformToViewModel(tweet));
+            }
+            return allTweets;
         }
     }
 }
