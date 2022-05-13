@@ -95,8 +95,8 @@ namespace TweetTests
         public void PostTweetWithNonEqualUserIdAndUserTokenId()
         {
             TweetServiceClass service = new TweetServiceClass(new MockTweetRepository());
-            TweetViewModel tweet = service.PostTweet(ExistingTweet, "0");
-            Assert.AreEqual(null, tweet, "Tweet wasn posted when using incorrect user ids");
+            TweetViewModel tweet = service.PostTweet(ExistingTweet, "1000");
+            Assert.AreEqual(null, tweet.User, "Tweet wasn posted when using incorrect user ids");
         }
 
         //Testing transform view model method

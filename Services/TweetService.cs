@@ -68,7 +68,7 @@ namespace TweetService.Services
             }
             else
             {
-                return null;
+                return new TweetViewModel();
             }
         }
 
