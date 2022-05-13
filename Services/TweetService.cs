@@ -28,10 +28,10 @@ namespace TweetService.Services
 
         public TweetViewModel LikeTweet(int tweetId, string userId)
         {
-            Tweet foundTweet = TweetRepository.FindTweet(tweetId);
-            foundTweet = TweetRepository.LoadLikes(foundTweet);
+            Tweet? foundTweet = TweetRepository.FindTweet(tweetId);
             if (foundTweet != null)
             {
+                foundTweet = TweetRepository.LoadLikes(foundTweet);
                 if (foundTweet.Likes.Count() == 0)
                 {
                     foundTweet.Likes.Add(new Likes(userId));
@@ -45,7 +45,7 @@ namespace TweetService.Services
                         if (like.User == userId)
                         {
                             count += 1;
-                            break;
+                            return TransformToViewModel(foundTweet);
                         }
                     }
                     if (count == 0)
@@ -55,7 +55,8 @@ namespace TweetService.Services
                     }
                 }
             }
-            return TransformToViewModel(foundTweet);
+            //Returns empty when nothing found
+            return new TweetViewModel();
         }
 
         public TweetViewModel PostTweet(Tweet tweet, string userTokenId)

@@ -21,7 +21,7 @@ namespace TweetService.DAL.Repositories
             return tweets;
         }
 
-        public Tweet FindTweet(int id)
+        public Tweet? FindTweet(int id)
         {
             return tweetContext.Tweets.Find(id);
         }

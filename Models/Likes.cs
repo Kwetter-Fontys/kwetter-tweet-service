@@ -14,5 +14,10 @@
         {
             User = user;
         }
+
+        public Likes()
+        {
+
+        }
     }
 }

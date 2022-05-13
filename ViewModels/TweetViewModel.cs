@@ -7,5 +7,6 @@
         public string User { get; set; }
         public List<LikesViewModel> Likes { get; set; }
         public DateTime Date { get; set; }
+
     }
 }
