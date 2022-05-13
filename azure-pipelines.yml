@@ -23,7 +23,7 @@ stages:
 - stage: Main
   displayName: Setup build analyse and deploy
   pool:
-    vmImage: $(vmImageName)
+    vmImage: windows-latest  
   jobs:
   - job: Setup
     displayName: Setup build analyse and deploy
@@ -51,7 +51,7 @@ stages:
       inputs:
         command: 'test'
         projects: '**/*.csproj'
-        arguments: '--collect "Code Coverage" --logger trx --results-directory $(Build.SourcesDirectory)\TestResults'
+        arguments: '--collect "Code Coverage" --logger trx --results-directory $(Agent.TempDirectory)'
         testRunTitle: 'Alll tests'
 
     - task: SonarCloudAnalyze@1
@@ -60,6 +60,14 @@ stages:
       inputs:
         pollingTimeoutSec: '300'
 
+
+- stage: Deploy
+  pool:
+    vmImage: $(vmImageName)
+  jobs:
+  - job: Deploy
+    displayName: Deploy to docker
+    steps:
     - task: Docker@2
       inputs:
         containerRegistry: 'DockerHub'
