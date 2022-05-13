@@ -42,7 +42,7 @@ stages:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
-        projects: '**/*.cspro'
+        projects: '**/*.csproj'
         testRunTitle: 'Alll tests'
       
     - task: SonarCloudAnalyze@1
