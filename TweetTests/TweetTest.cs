@@ -15,13 +15,7 @@ namespace TweetTests
         public string MainUserId = "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9";
         public string FakeUserId = "000";
         public List<TweetViewModel> TweetList;
-        public List<TweetViewModel> AssertList = new List<TweetViewModel>
-        {
-                new TweetViewModel{Id = 0, Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat.", User = "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9", Date = new DateTime(2008, 5, 1, 8, 30, 52) },
-                new TweetViewModel{Id = 1, Content = "Lorem", User = "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9", Date = new DateTime(2008, 5, 1, 8, 30, 52) },
-                new TweetViewModel{Id = 2, Content = "a", User = "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9", Date = new DateTime(2008, 5, 1, 8, 30, 52) },
-                new TweetViewModel{Id = 3, Content = "Tweet4", User = "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9", Date = new DateTime(2008, 5, 1, 8, 30, 52) }
-        };
+
         public Tweet ExistingTweet = new Tweet("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat.", "7cc35fc6-0eaf-4df8-aaef-773077b4f3c9") { Id = 0, Date = new DateTime(2008, 5, 1, 8, 30, 52) };
         //Used when no modifications are needed.
         public TweetServiceClass ExistingService = new TweetServiceClass(new MockTweetRepository());
@@ -33,7 +27,7 @@ namespace TweetTests
         {
             TweetList = ExistingService.GetTweetsFromUser(MainUserId);
             //ExpectedList, ActualList
-            Assert.AreEqual(AssertList.Count, TweetList.Count, "List count is not equal, when it should be");
+            Assert.AreEqual(4, TweetList.Count, "List count is not equal, when it should be");
         }
 
         [TestMethod]
