@@ -21,11 +21,11 @@ namespace TweetService.Services
             //Check if empty
             if(!tweets.Any())
             {
-                _logger.LogWarning("List of empty tweets was gotten from user: " + id);
+                _logger.LogWarning("List of empty tweets was gotten from user: {id}", id);
             }
             else
             {
-                _logger.LogInformation("List of " + tweets.Count.ToString() + " tweets was gotten from user: " + id);
+                _logger.LogInformation("List of {tweets.Count} tweets was gotten from user: {id}", tweets.Count, id);
             }
             return TransformToViewModelList(tweets);
         }
@@ -39,7 +39,7 @@ namespace TweetService.Services
                 if (foundTweet.Likes.Count() == 0)
                 {
                     foundTweet.Likes.Add(new Likes(userId));
-                    _logger.LogInformation("Tweet: " + tweetId.ToString() + " was liked by user: " + userId);
+                    _logger.LogInformation("Tweet: {tweetId} was liked by user: {userId}", tweetId, userId);
                     return TransformToViewModel(TweetRepository.UpdateTweet(foundTweet));
                 }
                 else
@@ -50,19 +50,19 @@ namespace TweetService.Services
                         if (like.User == userId)
                         {
                             count += 1;
-                            _logger.LogWarning("Tweet: " + tweetId.ToString() + " was already liked by user: " + userId);
+                            _logger.LogWarning("Tweet: {tweetId} was already liked by user: {userId}", tweetId, userId);
                             return TransformToViewModel(foundTweet);
                         }
                     }
                     if (count == 0)
                     {
                         foundTweet.Likes.Add(new Likes(userId));
-                        _logger.LogInformation("Tweet: " + tweetId.ToString() + " was liked by user: " + userId);
+                        _logger.LogInformation("Tweet: {tweetId} was liked by user: {userId}", tweetId, userId);
                         return TransformToViewModel(TweetRepository.UpdateTweet(foundTweet));
                     }
                 }
             }
-            _logger.LogWarning("No tweet with id: " + tweetId.ToString() + " found");
+            _logger.LogWarning("No tweet with id: {tweetId} found", tweetId);
             //Returns empty when nothing found
             return new TweetViewModel();
         }
@@ -73,13 +73,13 @@ namespace TweetService.Services
             tweet.Id = 0;
             if(tweet.User == userTokenId)
             {
-                _logger.LogInformation("User: " + userTokenId + " succesfully posted tweet with content: " + tweet.Content);
+                _logger.LogInformation("User: {userTokenId} succesfully posted tweet with: {tweet.content}", userTokenId, tweet.Content);
                 //Should probally strip id,dates and likes from this
                 return TransformToViewModel(TweetRepository.CreateTweet(tweet));
             }
             else
             {
-                _logger.LogWarning("User: " + userTokenId + " tried to tweet from and impersonate user: " + tweet.User);
+                _logger.LogWarning("User: {userTokenId} tried to tweet from and impersonate user: {tweet.User}", userTokenId, tweet.User);
                 return new TweetViewModel();
             }
         }

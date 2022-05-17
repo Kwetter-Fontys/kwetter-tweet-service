@@ -1,11 +1,7 @@
- using TweetService.DAL;
+using TweetService.DAL;
 using TweetService.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Logging;
 
 
 var builder = WebApplication.CreateBuilder(args);
