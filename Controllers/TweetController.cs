@@ -16,10 +16,11 @@ namespace TweetService.Controllers
     {
         JwtTokenHelper jwtTokenHelper;
         TweetServiceClass tweetService;
-        public TweetController(ITweetRepository tweetRepo)
-        {
+
+        public TweetController(ITweetRepository tweetRepo, ILogger<TweetServiceClass> logger)
+        { 
             jwtTokenHelper = new JwtTokenHelper();
-            tweetService = new TweetServiceClass(tweetRepo);
+            tweetService = new TweetServiceClass(tweetRepo, logger);
         }
 
         [HttpGet("{id}")]// GET /api/tweetcontroller/xyz

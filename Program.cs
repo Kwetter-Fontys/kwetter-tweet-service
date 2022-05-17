@@ -1,13 +1,23 @@
-using TweetService.DAL;
+ using TweetService.DAL;
 using TweetService.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Logging;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+var logger = LoggerFactory.Create(config =>
+{
+    config.AddConsole();
+    config.AddConfiguration(builder.Configuration.GetSection("Logging"));
+}).CreateLogger("Program");
+
 
 builder.Services.AddCors(options =>
 {
@@ -17,6 +27,7 @@ builder.Services.AddCors(options =>
                           builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                       });
 });
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -38,8 +49,10 @@ builder.Services.AddAuthentication(options =>
             c.Response.ContentType = "text/plain";
             if (builder.Environment.IsDevelopment())
             {
+                logger.LogWarning(c.Exception.ToString());
                 return c.Response.WriteAsync(c.Exception.ToString());
             }
+            logger.LogWarning("Invalid JWT token or unauthorized user.");
             return c.Response.WriteAsync("An error occured processing your authentication.");
         }
     };
