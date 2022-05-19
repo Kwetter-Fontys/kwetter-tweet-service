@@ -12,6 +12,7 @@ var logger = LoggerFactory.Create(config =>
 {
     config.AddConsole();
     config.AddConfiguration(builder.Configuration.GetSection("Logging"));
+    config.SetMinimumLevel(LogLevel.Information);
 }).CreateLogger("Program");
 
 
