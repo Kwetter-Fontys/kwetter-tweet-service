@@ -15,12 +15,12 @@ namespace TweetService.Controllers
     public class TweetController : ControllerBase
     {
         JwtTokenHelper jwtTokenHelper;
-        TweetServiceClass tweetService;
+        private readonly ITweetService tweetService;
 
-        public TweetController(ITweetRepository tweetRepo, ILogger<TweetServiceClass> logger)
+        public TweetController(ITweetService tweetServ)
         { 
             jwtTokenHelper = new JwtTokenHelper();
-            tweetService = new TweetServiceClass(tweetRepo, logger);
+            tweetService = tweetServ;
         }
 
         [HttpGet("{id}")]// GET /api/tweetcontroller/xyz

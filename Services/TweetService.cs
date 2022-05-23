@@ -1,12 +1,15 @@
-﻿using TweetService.DAL.Repositories;
+﻿using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
+using TweetService.DAL.Repositories;
 using TweetService.Models;
 using TweetService.ViewModels;
 
 namespace TweetService.Services
 {
-    public class TweetServiceClass
+    public class TweetServiceClass : ITweetService
     {
-        ITweetRepository TweetRepository;
+        private readonly ITweetRepository TweetRepository;
         private readonly ILogger _logger;
 
         public TweetServiceClass(ITweetRepository tweetRepo, ILogger<TweetServiceClass> logger)
@@ -106,6 +109,11 @@ namespace TweetService.Services
                 allTweets.Add(TransformToViewModel(tweet));
             }
             return allTweets;
+        }
+
+        public void DeleteTweets(string userId)
+        {
+            Console.WriteLine(userId);
         }
     }
 }

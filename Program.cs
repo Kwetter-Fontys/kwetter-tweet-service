@@ -2,7 +2,10 @@ using TweetService.DAL;
 using TweetService.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
+using RabbitMQ;
+using TweetService.Services;
+using RabbitMQ.Client.Events;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -56,21 +59,34 @@ builder.Services.AddAuthentication(options =>
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//Inject repo
-builder.Services.AddScoped<ITweetRepository, TweetRepository>();
+
 
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<TweetContext>(options =>
-    options.UseMySQL("server=localhost;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"));
+    options.UseMySQL("server=localhost;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"), 
+         ServiceLifetime.Transient,
+         optionsLifetime: ServiceLifetime.Transient);
 }
 else
 {
     builder.Services.AddDbContext<TweetContext>(options =>
-    options.UseMySQL("server=38.242.248.109;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"));
+    options.UseMySQL("server=38.242.248.109;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"), 
+         ServiceLifetime.Transient,
+         optionsLifetime: ServiceLifetime.Transient);
 }
+//Inject repo
 
+
+
+builder.Services.AddHostedService<MessageReceiver>();
+builder.Services.AddTransient<ITweetRepository, TweetRepository>();
+builder.Services.AddTransient<ITweetService, TweetServiceClass>();
 builder.Services.AddControllers();
+
+
+//Initalize message broker as background service
+
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
@@ -100,6 +116,5 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<TweetContext>();
     TweetInitializer.Initialize(context);
 }
-
 
 app.Run();
