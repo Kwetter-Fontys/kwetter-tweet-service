@@ -116,5 +116,27 @@ namespace TweetTests
             TweetViewModel tweetVM = ExistingService.TransformToViewModel(ExistingTweet);
             Assert.AreEqual(ExistingTweet.Content, tweetVM.Content, "Tweet was not correctly transformed");
         }
+
+        //Testing the DeleteTweet method
+
+        [TestMethod]
+        public void DeleteTweetsFromExistingUser()
+        {
+            TweetServiceClass service = CreateNewService();
+            service.DeleteTweets(MainUserId);
+            TweetList = service.GetTweetsFromUser(MainUserId);
+            //ExpectedList, ActualList
+            Assert.AreEqual(0, TweetList.Count, "List count is not equal, when it should be");
+        }
+
+        [TestMethod]
+        public void DeleteTweetsFromNonExistingUser()
+        {
+            TweetServiceClass service = CreateNewService();
+            service.DeleteTweets("test");
+            TweetList = service.GetTweetsFromUser("test");
+            //ExpectedList, ActualList
+            Assert.AreEqual(0, TweetList.Count, "List count is not equal, when it should be");
+        }
     }
 }

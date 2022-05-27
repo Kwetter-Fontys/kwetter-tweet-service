@@ -9,7 +9,7 @@ namespace TweetService.DAL.Repositories
         Tweet? FindTweet(int id);
         Tweet CreateTweet(Tweet tweet);
         Tweet UpdateTweet(Tweet tweet);
-
         Tweet LoadLikes(Tweet tweet);
+        void DeleteAllTweetsFromUser(List<Tweet> tweets);
     }
 }

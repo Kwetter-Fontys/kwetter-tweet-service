@@ -54,5 +54,10 @@ namespace TweetTests.UnitTests
             tweets[index] = tweet;
             return tweets[index];
         }
+
+        public void DeleteAllTweetsFromUser(List<Tweet> tweetjes)
+        {
+            tweets = tweets.Except(tweetjes).ToList();
+        }
     }
 }

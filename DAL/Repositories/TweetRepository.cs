@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TweetService.Models;
 
+
 namespace TweetService.DAL.Repositories
 {
     public class TweetRepository : ITweetRepository
@@ -45,6 +46,12 @@ namespace TweetService.DAL.Repositories
             tweetContext.Tweets.Update(tweet);
             tweetContext.SaveChanges();
             return tweet;
+        }
+
+        public void DeleteAllTweetsFromUser(List<Tweet> tweets)
+        {
+            tweetContext.Tweets.RemoveRange(tweets);
+            tweetContext.SaveChanges();
         }
 
     }

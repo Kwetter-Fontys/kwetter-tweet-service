@@ -113,7 +113,17 @@ namespace TweetService.Services
 
         public void DeleteTweets(string userId)
         {
-            Console.WriteLine(userId);
+            List<Tweet> tweets = TweetRepository.GetTweets(userId);
+            //Check if empty
+            if (!tweets.Any())
+            {
+                _logger.LogWarning("DeleteTweets(): List of empty tweets was gotten from user: {id}", userId);
+            }
+            else
+            {
+                _logger.LogInformation("DeleteTweets(): List of {tweets.Count} tweets was gotten from user: {id}", tweets.Count, userId);
+                TweetRepository.DeleteAllTweetsFromUser(tweets);
+            }
         }
     }
 }
