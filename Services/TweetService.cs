@@ -39,7 +39,7 @@ namespace TweetService.Services
             if (foundTweet != null)
             {
                 foundTweet = TweetRepository.LoadLikes(foundTweet);
-                if (foundTweet.Likes.Any())
+                if (!foundTweet.Likes.Any())
                 {
                     foundTweet.Likes.Add(new Likes(userId));
                     _logger.LogInformation("Tweet: {tweetId} was liked by user: {userId}", tweetId, userId);
