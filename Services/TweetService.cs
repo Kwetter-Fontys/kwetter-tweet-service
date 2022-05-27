@@ -39,7 +39,7 @@ namespace TweetService.Services
             if (foundTweet != null)
             {
                 foundTweet = TweetRepository.LoadLikes(foundTweet);
-                if (foundTweet.Likes.Count() == 0)
+                if (foundTweet.Likes.Any())
                 {
                     foundTweet.Likes.Add(new Likes(userId));
                     _logger.LogInformation("Tweet: {tweetId} was liked by user: {userId}", tweetId, userId);
@@ -72,7 +72,7 @@ namespace TweetService.Services
 
         public TweetViewModel PostTweet(Tweet tweet, string userTokenId)
         {
-            //Prevents adding tweet with existing id;
+            //This prevents adding tweet with existing id;
             tweet.Id = 0;
             if(tweet.User == userTokenId)
             {

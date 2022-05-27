@@ -1,9 +1,9 @@
 ﻿using TweetService.Models;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace TweetService.DAL
 {
-    public class TweetInitializer
+    public static class TweetInitializer
     {
         public static void Initialize(TweetContext context)
         {

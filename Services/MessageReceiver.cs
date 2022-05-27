@@ -39,7 +39,6 @@ namespace TweetService.Services
             };
 
             _connection = factory.CreateConnection();
-            _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
             _channel = _connection.CreateModel();
             _channel.QueueDeclare(queue: _queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
         }
@@ -57,10 +56,7 @@ namespace TweetService.Services
 
                 _channel.BasicAck(ea.DeliveryTag, false);
             };
-            consumer.Shutdown += OnConsumerShutdown;
-            consumer.Registered += OnConsumerRegistered;
-            consumer.Unregistered += OnConsumerUnregistered;
-            consumer.ConsumerCancelled += OnConsumerCancelled;
+
 
             _channel.BasicConsume(_queueName, false, consumer);
 
@@ -72,25 +68,6 @@ namespace TweetService.Services
             _tweetService.DeleteTweets(messageContent);
         }
 
-        private void OnConsumerCancelled(object sender, ConsumerEventArgs e)
-        {
-        }
-
-        private void OnConsumerUnregistered(object sender, ConsumerEventArgs e)
-        {
-        }
-
-        private void OnConsumerRegistered(object sender, ConsumerEventArgs e)
-        {
-        }
-
-        private void OnConsumerShutdown(object sender, ShutdownEventArgs e)
-        {
-        }
-
-        private void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
-        {
-        }
 
         public override void Dispose()
         {

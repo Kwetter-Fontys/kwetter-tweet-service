@@ -33,8 +33,6 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(o =>
 {
-    //o.Authority = Configuration["Jwt:Authority"];
-    //o.Audience = Configuration["Jwt:Audience"];
     o.Authority = "https://keycloak.sebananasprod.nl/auth/realms/Kwetter";
     o.Audience = "account";
     o.Events = new JwtBearerEvents()
@@ -99,7 +97,6 @@ if (!app.Environment.IsDevelopment())
 else
 {
     app.UseDeveloperExceptionPage();
-    //app.UseMigrationsEndPoint();
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();

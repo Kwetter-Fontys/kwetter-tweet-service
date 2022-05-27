@@ -14,7 +14,7 @@ namespace TweetService.Controllers
     [ApiController]
     public class TweetController : ControllerBase
     {
-        JwtTokenHelper jwtTokenHelper;
+        readonly JwtTokenHelper jwtTokenHelper;
         private readonly ITweetService tweetService;
 
         public TweetController(ITweetService tweetServ)
