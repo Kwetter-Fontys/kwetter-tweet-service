@@ -72,8 +72,6 @@ else
 }
 //Inject repo
 
-
-
 builder.Services.AddHostedService<MessageReceiver>();
 builder.Services.AddTransient<ITweetRepository, TweetRepository>();
 builder.Services.AddTransient<ITweetService, TweetServiceClass>();

@@ -11,6 +11,8 @@ using System.Net;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using TweetService.ViewModels;
+using System.Net.Http.Json;
+using TweetService.Models;
 
 namespace TweetIntegrationTests
 {
@@ -47,24 +49,67 @@ namespace TweetIntegrationTests
             var myJObject = JObject.Parse(response.Content);
             return (string)myJObject["access_token"];
         }
-        [Fact]
-        public async Task GetAllTweetsFromUserWithCorrectToken()
-        {
-            // Arrange
 
+
+        [Fact]
+        public async Task AccessControllerWithoutToken()
+        {
             using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, "/api/tweetcontroller/bf40cabc-3cc7-49bb-aeba-cd1c6ab23dcc"))
             {
-                requestMessage.Headers.Authorization =
-                    new AuthenticationHeaderValue("Bearer", AccessToken);
-
                 HttpResponseMessage response = await _client.SendAsync(requestMessage);
                 Console.WriteLine(response);
+                Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+            }
+        }
+
+        [Fact]
+        public async Task GetAllTweetsFromUserWithToken()
+        { 
+            using (var requestMessage = new HttpRequestMessage(HttpMethod.Get, "/api/tweetcontroller/bf40cabc-3cc7-49bb-aeba-cd1c6ab23dcc"))
+            {
+                requestMessage.Headers.Authorization =  new AuthenticationHeaderValue("Bearer", AccessToken);
+                HttpResponseMessage response = await _client.SendAsync(requestMessage);
+
                 var rep =   response.Content.ReadAsStringAsync().Result;
                 List<TweetViewModel> myJObject = JsonConvert.DeserializeObject<List<TweetViewModel>>(rep);
+
                 Assert.Equal(HttpStatusCode.OK, response.StatusCode);
                 Assert.Equal(4, myJObject.Count);
             }
+        }
 
+        [Fact]
+        public async Task LikeTweetWithToken()
+        {
+            using (var requestMessage = new HttpRequestMessage(HttpMethod.Put, "/api/tweetcontroller/1"))
+            {
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+                HttpResponseMessage response = await _client.SendAsync(requestMessage);
+
+                var rep = response.Content.ReadAsStringAsync().Result;
+                TweetViewModel myJObject = JsonConvert.DeserializeObject<TweetViewModel>(rep);
+
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                Assert.Equal(1, myJObject.Likes.Count);
+            }
+        }
+
+
+        [Fact]
+        public async Task PostTweetWithToken()
+        {
+            using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/api/tweetcontroller"))
+            {
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+                //Tweet tweet = new Tweet("Tweet", "bf40cabc-3cc7-49bb-aeba-cd1c6ab23dc") { Id = 1, Date = "2022-05-28T13:58:05" }
+                requestMessage.Content = JsonContent.Create(new { id = 1, content = "Tweet", user = "bf40cabc-3cc7-49bb-aeba-cd1c6ab23dcc", date = "2022-05-28T13:58:05" });
+                HttpResponseMessage response = await _client.SendAsync(requestMessage);
+
+                var rep = response.Content.ReadAsStringAsync().Result;
+                TweetViewModel myJObject = JsonConvert.DeserializeObject<TweetViewModel>(rep);
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+                Assert.Equal(11, myJObject.Id);
+            }
         }
     }
 }
