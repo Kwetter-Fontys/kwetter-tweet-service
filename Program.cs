@@ -2,10 +2,7 @@ using TweetService.DAL;
 using TweetService.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using RabbitMQ;
 using TweetService.Services;
-using RabbitMQ.Client.Events;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -20,10 +17,10 @@ var logger = LoggerFactory.Create(config =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
-                      builder =>
-                      {
-                          builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                      });
+                        builder =>
+                        {
+                            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                        });
 });
 
 
@@ -62,16 +59,16 @@ builder.Services.AddSwaggerGen();
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<TweetContext>(options =>
-    options.UseMySQL("server=localhost;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"), 
-         ServiceLifetime.Transient,
-         optionsLifetime: ServiceLifetime.Transient);
+    options.UseMySQL("server=localhost;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"),
+            ServiceLifetime.Transient,
+            optionsLifetime: ServiceLifetime.Transient);
 }
 else
 {
     builder.Services.AddDbContext<TweetContext>(options =>
-    options.UseMySQL("server=38.242.248.109;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"), 
-         ServiceLifetime.Transient,
-         optionsLifetime: ServiceLifetime.Transient);
+    options.UseMySQL("server=38.242.248.109;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"),
+            ServiceLifetime.Transient,
+            optionsLifetime: ServiceLifetime.Transient);
 }
 //Inject repo
 
@@ -115,3 +112,4 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+public partial class Program { }
