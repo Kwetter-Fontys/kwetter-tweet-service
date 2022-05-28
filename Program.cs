@@ -106,12 +106,5 @@ app.MapControllers().RequireCors(MyAllowSpecificOrigins);
 
 app.Run();
 
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<TweetContext>();
-    await Task.Delay(TimeSpan.FromSeconds(30));
-    TweetInitializer.Initialize(context);
-}
 public partial class Program { }
