@@ -103,6 +103,9 @@ app.UseCors(MyAllowSpecificOrigins);
 app.MapControllers().RequireCors(MyAllowSpecificOrigins);
 
 
+
+app.Run();
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -110,6 +113,4 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<TweetContext>();
     TweetInitializer.Initialize(context);
 }
-
-app.Run();
 public partial class Program { }
