@@ -26,6 +26,7 @@ namespace TweetIntegrationTests
                _factory = factory;
                 _client = factory.CreateClient(new WebApplicationFactoryClientOptions
                 {
+                    
                     AllowAutoRedirect = false
                 });
                 _factory = factory;

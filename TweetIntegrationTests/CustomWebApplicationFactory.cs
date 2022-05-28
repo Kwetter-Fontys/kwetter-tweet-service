@@ -19,14 +19,15 @@ namespace TweetIntegrationTests
             {
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
-                        typeof(DbContextOptions<DbContext>));
+                        typeof(DbContextOptions<TweetContext>));
 
                 services.Remove(descriptor);
 
                 services.AddDbContext<TweetContext>(options =>
-                {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
-                });
+                
+                    options.UseInMemoryDatabase("InMemoryDbForTesting"),
+                    ServiceLifetime.Transient,
+                    optionsLifetime: ServiceLifetime.Transient);
 
                 var sp = services.BuildServiceProvider();
 
