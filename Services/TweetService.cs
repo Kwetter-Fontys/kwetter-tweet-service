@@ -38,7 +38,6 @@ namespace TweetService.Services
             Tweet? foundTweet = TweetRepository.FindTweet(tweetId);
             if (foundTweet != null)
             {
-                foundTweet = TweetRepository.LoadLikes(foundTweet);
                 if (!foundTweet.Likes.Any())
                 {
                     foundTweet.Likes.Add(new Likes(userId));
@@ -92,22 +91,31 @@ namespace TweetService.Services
         {
             List<LikesViewModel> likesVM = new List<LikesViewModel>();
 
-            foreach(Likes like in tweet.Likes)
+            likesVM = tweet.Likes.Select(x => new LikesViewModel()
             {
-                likesVM.Add(new LikesViewModel { LikesId = like.LikesId, TweetId = like.TweetId, User = like.User });
-            }
+                LikesId = x.LikesId,
+                TweetId = x.TweetId,
+                User = x.User,
+            }).ToList();
             return new TweetViewModel { Id = tweet.Id, Content = tweet.Content, Date = tweet.Date, User = tweet.User, Likes = likesVM };
         }
 
         public List<TweetViewModel> TransformToViewModelList(List<Tweet> tweets)
         {
             List<TweetViewModel> allTweets = new List<TweetViewModel>();
-            foreach (Tweet tweet in tweets)
+            allTweets = tweets.Select(x => new TweetViewModel()
             {
-                //Propally should load it imediatly instead of looping through like here
-                TweetRepository.LoadLikes(tweet);
-                allTweets.Add(TransformToViewModel(tweet));
-            }
+                Id = x.Id,
+                Content = x.Content,
+                User = x.User,
+                Date = x.Date,
+                Likes = x.Likes.Select(x => new LikesViewModel()
+                {
+                    LikesId = x.LikesId,
+                    TweetId = x.TweetId,
+                    User = x.User,
+                }).ToList()
+            }).ToList();
             return allTweets;
         }
 

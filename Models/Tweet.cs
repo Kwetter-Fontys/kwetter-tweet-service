@@ -12,7 +12,7 @@ namespace TweetService.Models
         [MaxLength]
         public string Content { get; set; }
         public string User { get; set; }
-        public virtual List<Likes> Likes { get; set; }
+        public List<Likes> Likes { get; set; }
 
         public DateTime Date { get; set; }
         public Tweet(string content, string user)
