@@ -16,16 +16,19 @@ namespace TweetService.Controllers
     {
         readonly JwtTokenHelper jwtTokenHelper;
         private readonly ITweetService tweetService;
+        private readonly ILogger _logger;
 
-        public TweetController(ITweetService tweetServ)
+        public TweetController(ITweetService tweetServ, ILogger<TweetController> logger)
         { 
             jwtTokenHelper = new JwtTokenHelper();
             tweetService = tweetServ;
+            _logger = logger;
         }
 
         [HttpGet("{id}")]// GET /api/tweetcontroller/xyz
         public List<TweetViewModel> GetAllTweets(string id)
         {
+            _logger.LogInformation("GetAllTweets() was called for user {id}", id);
             return tweetService.GetTweetsFromUser(id);
         }
 
@@ -33,6 +36,7 @@ namespace TweetService.Controllers
         public TweetViewModel LikeTweet(int id)
         {
             string userTokenId = jwtTokenHelper.GetId(Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", ""));
+            _logger.LogInformation("LikeTweet() was called by user {userTokenId}", userTokenId);
             return tweetService.LikeTweet(id, userTokenId);
         }
 
@@ -40,6 +44,7 @@ namespace TweetService.Controllers
         public TweetViewModel PostTweet(Tweet tweet)
         {
             string userTokenId = jwtTokenHelper.GetId(Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", ""));
+            _logger.LogInformation("PostTweet() was called by user {userTokenId}, with content {tweet.Content}", userTokenId, tweet.Content);
             return tweetService.PostTweet(tweet, userTokenId);
         }
     }

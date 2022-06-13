@@ -14,7 +14,7 @@ namespace TweetService.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.EnableSensitiveDataLogging(true);
+            optionsBuilder.EnableSensitiveDataLogging(false);
             
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
