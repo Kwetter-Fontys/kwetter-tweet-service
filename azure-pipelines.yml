@@ -63,7 +63,7 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUNIT'
-        testResultsFiles: 'dependency-check-*.junit.xml'
+        testResultsFiles: '**/*-junit.xml'
         searchFolder: '$(Common.TestResultsDirectory)'
         failTaskOnFailedTests: true
         testRunTitle: 'Dependency check'
