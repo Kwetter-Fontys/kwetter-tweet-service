@@ -60,6 +60,20 @@ stages:
       inputs:
         pollingTimeoutSec: '300'
 
+- stage: Check Dependencies
+  pool:
+    vmImage: $(vmImageName)
+  jobs:
+  - job: Checker
+    displayName: Dependency checker
+    steps:
+    - task: dependency-check-build-task@6
+      inputs:
+        projectName: 'kwetter-tweet-service'
+        scanPath: '**/*.csproj'
+        format: 'HTML'
+        failOnCVSS: '8'
+
 
 - stage: Deploy
   pool:
