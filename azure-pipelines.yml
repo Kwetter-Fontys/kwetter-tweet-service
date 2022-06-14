@@ -57,13 +57,13 @@ stages:
     - task: dependency-check-build-task@6
       inputs:
         projectName: 'kwetter-tweet-service'
-        scanPath: '**/*.csproj'
+        scanPath: '$(Build.SourcesDirectory)/**/bin/Debug/net6.0/*.dll'
         format: 'JUNIT'
         failOnCVSS: '8'
     - task: PublishTestResults@2
       inputs:
-        testResultsFormat: 'JUnit'
-        testResultsFiles: 'dependency-check\*.junit.xml'
+        testResultsFormat: 'JUNIT'
+        testResultsFiles: 'dependency-check-*.junit.xml'
         searchFolder: '$(Common.TestResultsDirectory)'
         failTaskOnFailedTests: true
         testRunTitle: 'Dependency check'
