@@ -60,7 +60,13 @@ stages:
         scanPath: '**/*.csproj'
         format: 'JUNIT'
         failOnCVSS: '8'
-        
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'dependency-check\*.junit.xml'
+        searchFolder: '$(Common.TestResultsDirectory)'
+        failTaskOnFailedTests: true
+        testRunTitle: 'Dependency check'
     - task: SonarCloudAnalyze@1
 
     - task: SonarCloudPublish@1
