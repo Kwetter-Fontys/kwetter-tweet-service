@@ -58,7 +58,7 @@ stages:
       inputs:
         projectName: 'kwetter-tweet-service'
         scanPath: '**/*.csproj'
-        format: 'HTML'
+        format: 'JUnit'
         failOnCVSS: '8'
         
     - task: SonarCloudAnalyze@1
