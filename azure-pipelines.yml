@@ -58,8 +58,9 @@ stages:
       inputs:
         projectName: 'kwetter-tweet-service'
         scanPath: '$(Build.SourcesDirectory)/**/bin/Debug/net6.0/*.dll'
-        format: 'JUNIT'
+        format: 'HTML, JUNIT'
         failOnCVSS: '8'
+        
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUNIT'
