@@ -13,8 +13,6 @@ var logger = LoggerFactory.Create(config =>
     config.AddConfiguration(builder.Configuration.GetSection("Logging"));
 }).CreateLogger("Program");
 
-Console.WriteLine("HIERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
-Console.WriteLine(Environment.GetEnvironmentVariable("TestVariableName", EnvironmentVariableTarget.User));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -31,8 +29,8 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(o =>
 {
-    o.Authority = "https://keycloak.sebananasprod.nl/auth/realms/Kwetter";
-    o.Audience = "account";
+    o.Authority = Environment.GetEnvironmentVariable("Authority");
+    o.Audience = Environment.GetEnvironmentVariable("Audience");
     o.Events = new JwtBearerEvents()
     {
         OnAuthenticationFailed = c =>
@@ -57,20 +55,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddDbContext<TweetContext>(options =>
-    options.UseMySQL("server=localhost;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"),
-            ServiceLifetime.Transient,
-            optionsLifetime: ServiceLifetime.Transient);
-}
-else
-{
-    builder.Services.AddDbContext<TweetContext>(options =>
-    options.UseMySQL("server=38.242.248.109;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7"),
-            ServiceLifetime.Transient,
-            optionsLifetime: ServiceLifetime.Transient);
-}
+#pragma warning disable CS8604 // Possible null reference argument.
+builder.Services.AddDbContext<TweetContext>(options =>
+options.UseMySQL(Environment.GetEnvironmentVariable("Database")),
+        ServiceLifetime.Transient,
+        optionsLifetime: ServiceLifetime.Transient);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+
 //Inject repo
 //Initalize message broker as background service
 builder.Services.AddHostedService<MessageReceiver>();

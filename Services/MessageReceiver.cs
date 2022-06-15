@@ -19,10 +19,12 @@ namespace TweetService.Services
         public MessageReceiver(ITweetService tweetServ)
         {
 
-            _hostname = "38.242.248.109";
-            _username = "guest";
-            _password = "pi4snc7kpg#77Q#F";
-            _queueName = "deleteTweets";
+#pragma warning disable CS8601 // Possible null reference assignment.
+            _hostname = Environment.GetEnvironmentVariable("RabbitMQHost");
+            _username = Environment.GetEnvironmentVariable("RabbitMQUsername");
+            _password = Environment.GetEnvironmentVariable("RabbitMQPassword");
+            _queueName = Environment.GetEnvironmentVariable("RabbitMQQueueName");
+#pragma warning restore CS8601 // Possible null reference assignment.
             _tweetService = tweetServ;
             InitializeRabbitMqListener();
         }

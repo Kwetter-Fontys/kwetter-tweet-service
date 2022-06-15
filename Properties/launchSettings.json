@@ -27,7 +27,14 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Audience": "account",
+        "RabbitMQQueueName": "deleteTweets",
+        "RabbitMQPassword": "pi4snc7kpg#77Q#F",
+        "Database": "server=localhost;port=3307;database=tweets;user=root;password=CEzmBKLB8?f5s!G7",
+        "Authority": "https://keycloak.sebananasprod.nl/auth/realms/Kwetter",
+        "RabbitMQHost": "38.242.248.109",
+        "RabbitMQUsername": "guest"
       },
       "applicationUrl": "http://localhost:5002",
       "dotnetRunMessages": true
