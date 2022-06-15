@@ -21,6 +21,8 @@ namespace TweetIntegrationTests
             Environment.SetEnvironmentVariable("RabbitMQQueueName", "deleteTweets");
             Environment.SetEnvironmentVariable("Audience", "account");
             Environment.SetEnvironmentVariable("Authority", "https://keycloak.sebananasprod.nl/auth/realms/Kwetter");
+
+
             builder.ConfigureServices(services =>
             {
                 var descriptor = services.SingleOrDefault(
