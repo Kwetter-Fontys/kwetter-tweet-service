@@ -13,7 +13,8 @@ var logger = LoggerFactory.Create(config =>
     config.AddConfiguration(builder.Configuration.GetSection("Logging"));
 }).CreateLogger("Program");
 
-
+Console.WriteLine("HIERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+Console.WriteLine(Environment.GetEnvironmentVariable("TestVariableName", EnvironmentVariableTarget.User));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -71,15 +72,11 @@ else
             optionsLifetime: ServiceLifetime.Transient);
 }
 //Inject repo
-
+//Initalize message broker as background service
 builder.Services.AddHostedService<MessageReceiver>();
 builder.Services.AddTransient<ITweetRepository, TweetRepository>();
 builder.Services.AddTransient<ITweetService, TweetServiceClass>();
 builder.Services.AddControllers();
-
-
-//Initalize message broker as background service
-
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())

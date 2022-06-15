@@ -16,7 +16,6 @@ namespace TweetService.Services
         private readonly string _username;
         private readonly string _password;
 
-
         public MessageReceiver(ITweetService tweetServ)
         {
 
