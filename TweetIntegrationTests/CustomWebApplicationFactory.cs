@@ -15,6 +15,12 @@ namespace TweetIntegrationTests
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            Environment.SetEnvironmentVariable("RabbitMQHost", "38.242.248.109");
+            Environment.SetEnvironmentVariable("RabbitMQUsername", "guest");
+            Environment.SetEnvironmentVariable("RabbitMQPassword", "pi4snc7kpg#77Q#F");
+            Environment.SetEnvironmentVariable("RabbitMQQueueName", "deleteTweets");
+            Environment.SetEnvironmentVariable("Audience", "account");
+            Environment.SetEnvironmentVariable("Authority", "https://keycloak.sebananasprod.nl/auth/realms/Kwetter");
             builder.ConfigureServices(services =>
             {
                 var descriptor = services.SingleOrDefault(
