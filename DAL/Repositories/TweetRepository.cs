@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TweetService.Models;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace TweetService.DAL.Repositories
 {
@@ -18,7 +18,8 @@ namespace TweetService.DAL.Repositories
         }
         public List<Tweet> GetTweets(string userId)
         {
-            List<Tweet> tweets = tweetContext.Tweets.Where(t => t.User == userId).OrderByDescending(t => t.Date).ToList();
+
+            List<Tweet> tweets = tweetContext.Tweets.Include(l => l.Likes).Where(t => t.User == userId).OrderByDescending(t => t.Date).ToList();
             return tweets;
         }
 
