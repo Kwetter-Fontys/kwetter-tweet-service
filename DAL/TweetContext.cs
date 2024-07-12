@@ -25,6 +25,7 @@ namespace TweetService.DAL
             {
                 entity.HasKey(e => e.Id);
             });
+
         }
     }
 }

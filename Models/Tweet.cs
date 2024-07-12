@@ -15,6 +15,7 @@ namespace TweetService.Models
         public virtual List<Likes> Likes { get; set; }
 
         public DateTime Date { get; set; }
+
         public Tweet(string content, string user)
         {
             Content = content;

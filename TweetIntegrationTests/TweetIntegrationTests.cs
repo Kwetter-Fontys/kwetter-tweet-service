@@ -19,6 +19,7 @@ namespace TweetIntegrationTests
     public class TweetIntegrationTests 
         : IClassFixture<CustomWebApplicationFactory<Program>>
     {
+
         private readonly HttpClient _client;
         private readonly CustomWebApplicationFactory<Program> _factory;
         public string AccessToken;
